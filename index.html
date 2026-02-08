@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pizza Map Tracker</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Pizza Map Tracker</h1>
+    <p class="sub">Map + shared database. Add pizzas. Filter by style.</p>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <h2>Filters</h2>
+      <div class="row">
+        <label for="styleFilter">Primary style</label>
+        <select id="styleFilter">
+          <option value="">All</option>
+        </select>
+      </div>
+      <div class="row">
+        <label for="searchBox">Search</label>
+        <input id="searchBox" type="text" placeholder="Place, city, notes…" />
+      </div>
+      <div class="row">
+        <label for="minRating">Minimum rating</label>
+        <select id="minRating">
+          <option value="">Any</option>
+          <option value="6">6+</option>
+          <option value="7">7+</option>
+          <option value="8">8+</option>
+          <option value="9">9+</option>
+        </select>
+      </div>
+
+      <h2>Add a pizza</h2>
+      <p class="hint">Tip: use a map click to auto-fill latitude/longitude.</p>
+
+      <form id="addForm">
+        <div class="row">
+          <label>Place name *</label>
+          <input name="place_name" required />
+        </div>
+        <div class="row">
+          <label>Address</label>
+          <input name="address" />
+        </div>
+        <div class="row two">
+          <div>
+            <label>City</label>
+            <input name="city" />
+          </div>
+          <div>
+            <label>State</label>
+            <input name="state" maxlength="2" />
+          </div>
+        </div>
+
+        <div class="row two">
+          <div>
+            <label>Latitude *</label>
+            <input name="latitude" id="latInput" required />
+          </div>
+          <div>
+            <label>Longitude *</label>
+            <input name="longitude" id="lngInput" required />
+          </div>
+        </div>
+
+        <div class="row">
+          <label>Primary style *</label>
+          <select name="style_primary" id="stylePrimary" required></select>
+        </div>
+        <div class="row">
+          <label>Secondary style (optional)</label>
+          <select name="style_secondary" id="styleSecondary">
+            <option value="">None</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <label>Attributes (comma-separated tags)</label>
+          <input name="attributes" placeholder="crisp_with_chew, foldable, well_done" />
+          <small>Use tags from taxonomy/attributes.md</small>
+        </div>
+
+        <div class="row two">
+          <div>
+            <label>Rating (1–10)</label>
+            <input name="rating" type="number" min="1" max="10" />
+          </div>
+          <div>
+            <label>Price level (1–4)</label>
+            <input name="price_level" type="number" min="1" max="4" />
+          </div>
+        </div>
+
+        <div class="row">
+          <label>Notes</label>
+          <textarea name="notes" rows="3" placeholder="What made it good or bad?"></textarea>
+        </div>
+
+        <div class="row">
+          <label>Source link</label>
+          <input name="source_url" placeholder="https://…" />
+        </div>
+
+        <button type="submit" id="submitBtn">Add to map</button>
+        <div id="formMsg" class="msg" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <section class="mapWrap">
+      <div id="map"></div>
+      <div class="list">
+        <h2>Results</h2>
+        <div id="resultsMeta" class="meta"></div>
+        <div id="results"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <small>Built with Leaflet + Supabase. Taxonomy in /taxonomy.</small>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- config.js is intentionally gitignored; copy config.example.js to config.js -->
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
