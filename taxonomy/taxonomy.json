@@ -1,0 +1,107 @@
+{
+  "styles": [
+    {
+      "id": "new_york",
+      "label": "New York style"
+    },
+    {
+      "id": "neapolitan",
+      "label": "Neapolitan"
+    },
+    {
+      "id": "new_haven",
+      "label": "New Haven (apizza)"
+    },
+    {
+      "id": "chicago_tavern",
+      "label": "Chicago tavern style"
+    },
+    {
+      "id": "detroit",
+      "label": "Detroit style"
+    },
+    {
+      "id": "sicilian",
+      "label": "Sicilian"
+    },
+    {
+      "id": "roman_al_taglio",
+      "label": "Roman al taglio"
+    },
+    {
+      "id": "deep_dish",
+      "label": "Deep dish"
+    },
+    {
+      "id": "bar_pie",
+      "label": "Bar pie"
+    },
+    {
+      "id": "st_louis",
+      "label": "St. Louis style"
+    },
+    {
+      "id": "california_artisan",
+      "label": "California artisan"
+    }
+  ],
+  "attributes": [
+    "thin",
+    "medium",
+    "thick",
+    "cracker_crisp",
+    "crisp_with_chew",
+    "chewy",
+    "airy",
+    "fluffy",
+    "foldable",
+    "stiff_slice",
+    "knife_and_fork",
+    "puffy_rim",
+    "low_rim",
+    "pale",
+    "golden",
+    "well_done",
+    "char_spots",
+    "heavy_char",
+    "coal_oven",
+    "wood_fired",
+    "deck_oven",
+    "pan_fried",
+    "light_sauce",
+    "medium_sauce",
+    "heavy_sauce",
+    "bright_tangy",
+    "sweet_leaning",
+    "herb_forward",
+    "spicy",
+    "cooked_down_rich",
+    "sauce_under_cheese",
+    "sauce_over_cheese",
+    "sauce_dollops",
+    "cheese_light",
+    "cheese_medium",
+    "cheese_heavy",
+    "mozzarella_mild",
+    "sharp_provolone",
+    "parmesan_finish",
+    "browned_bubbles",
+    "caramel_edge",
+    "minimal_cheese",
+    "plain_cheese",
+    "pepperoni_classic",
+    "sausage",
+    "mushroom",
+    "veggie_heavy",
+    "meat_heavy",
+    "spicy_honey",
+    "basil_fresh",
+    "anchovy",
+    "white_pie",
+    "by_the_slice",
+    "sit_down",
+    "delivery_ok",
+    "late_night",
+    "party_square_cut"
+  ]
+}
