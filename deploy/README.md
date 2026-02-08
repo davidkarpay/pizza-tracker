@@ -29,7 +29,8 @@ Private deployment for friends and family — all traffic stays on your Tailscal
 |---------|------|--------------------|
 | **piserver** | Web server (static files + tailscale serve) | piserver.tail0e7f9c.ts.net |
 | **ugreen** | Database (self-hosted Supabase via Docker) | ugreen.tail0e7f9c.ts.net |
-| **davids-macbook-air** | Your dev machine + browser | davids-macbook-air.tail0e7f9c.ts.net |
+| **davids-macbook-air** | Dev machine + browser | davids-macbook-air.tail0e7f9c.ts.net |
+| **iphone-15-pro** | Mobile browser + SSH client | iphone-15-pro.tail0e7f9c.ts.net |
 
 ## One-command deploy (from your Mac)
 
@@ -40,9 +41,30 @@ cd pizza-tracker
 
 This SSHs into both machines and sets everything up. You'll be prompted for passwords.
 
-Override SSH usernames if needed:
+Default SSH user is `david` for both machines. Override if needed:
 ```bash
-UGREEN_USER=admin PISERVER_USER=david ./deploy/deploy.sh
+UGREEN_USER=other PISERVER_USER=other ./deploy/deploy.sh
+```
+
+### Deploy from your iPhone
+
+SSH to your Mac first, then run the deploy from there:
+```bash
+ssh davidluciankarpay@davids-macbook-air.tail0e7f9c.ts.net
+cd ~/pizza-tracker
+./deploy/deploy.sh
+```
+
+Or run each machine directly from any SSH client on your phone:
+```bash
+# 1. Database
+ssh david@ugreen.tail0e7f9c.ts.net
+sudo /tmp/ugreen-db-setup.sh
+# Note the ANON_KEY
+
+# 2. Web server
+ssh david@piserver.tail0e7f9c.ts.net
+sudo /tmp/piserver-setup.sh THE_ANON_KEY
 ```
 
 ## Manual deploy (step by step)
@@ -51,7 +73,7 @@ UGREEN_USER=admin PISERVER_USER=david ./deploy/deploy.sh
 
 SSH to the ugreen and run:
 ```bash
-ssh root@ugreen.tail0e7f9c.ts.net
+ssh david@ugreen.tail0e7f9c.ts.net
 
 # Copy the script there (or git clone the repo)
 sudo ./deploy/ugreen-db-setup.sh
@@ -71,7 +93,7 @@ Credentials are saved to `/opt/pizza-tracker-db/.env` on the ugreen.
 
 SSH to the piserver and run:
 ```bash
-ssh pi@piserver.tail0e7f9c.ts.net
+ssh david@piserver.tail0e7f9c.ts.net
 
 # Copy the repo there (or scp the files)
 sudo ./deploy/piserver-setup.sh YOUR_ANON_KEY_FROM_STEP_1
@@ -134,7 +156,7 @@ For tighter control, edit your [Tailscale ACL policy](https://login.tailscale.co
 
 ### piserver (web)
 ```bash
-ssh pi@piserver.tail0e7f9c.ts.net
+ssh david@piserver.tail0e7f9c.ts.net
 
 systemctl status pizza-tracker      # check web server
 journalctl -u pizza-tracker -f      # view logs
@@ -144,7 +166,7 @@ tailscale serve status              # check tailscale serve
 
 ### ugreen (database)
 ```bash
-ssh root@ugreen.tail0e7f9c.ts.net
+ssh david@ugreen.tail0e7f9c.ts.net
 
 cd /opt/pizza-tracker-db
 docker compose ps                   # check all services
@@ -160,8 +182,8 @@ docker compose exec db psql -U postgres
 ### Updating the app
 ```bash
 # From your Mac:
-scp app.js styles.css index.html pi@piserver.tail0e7f9c.ts.net:/opt/pizza-tracker/
-ssh pi@piserver.tail0e7f9c.ts.net "sudo systemctl restart pizza-tracker"
+scp app.js styles.css index.html david@piserver.tail0e7f9c.ts.net:/opt/pizza-tracker/
+ssh david@piserver.tail0e7f9c.ts.net "sudo systemctl restart pizza-tracker"
 ```
 
 ## Security notes

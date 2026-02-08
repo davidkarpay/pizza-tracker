@@ -14,8 +14,8 @@ set -euo pipefail
 
 UGREEN_HOST="ugreen.tail0e7f9c.ts.net"
 PISERVER_HOST="piserver.tail0e7f9c.ts.net"
-UGREEN_USER="${UGREEN_USER:-root}"
-PISERVER_USER="${PISERVER_USER:-pi}"
+UGREEN_USER="${UGREEN_USER:-david}"
+PISERVER_USER="${PISERVER_USER:-david}"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"

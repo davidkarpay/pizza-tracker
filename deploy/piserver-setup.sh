@@ -56,10 +56,38 @@ REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 echo "==> Copying app files to $APP_DIR..."
 mkdir -p "$APP_DIR"
-# Copy only the frontend files (not deploy scripts, not .git)
+
+# Copy frontend files if they exist alongside the script
+MISSING_FILES=0
 for f in index.html app.js styles.css config.example.js taxonomy; do
-    cp -r "$REPO_DIR/$f" "$APP_DIR/"
+    if [ -e "$REPO_DIR/$f" ]; then
+        cp -r "$REPO_DIR/$f" "$APP_DIR/"
+    else
+        MISSING_FILES=1
+    fi
 done
+
+if [ "$MISSING_FILES" -eq 1 ]; then
+    # Script was scp'd alone — try cloning from GitHub
+    if command -v git &>/dev/null; then
+        echo "==> App files not found alongside script. Cloning from GitHub..."
+        TMPCLONE=$(mktemp -d)
+        git clone --depth 1 https://github.com/davidkarpay/pizza-tracker.git "$TMPCLONE" 2>/dev/null || true
+        if [ -f "$TMPCLONE/index.html" ]; then
+            for f in index.html app.js styles.css config.example.js taxonomy; do
+                [ -e "$TMPCLONE/$f" ] && cp -r "$TMPCLONE/$f" "$APP_DIR/"
+            done
+            echo "==> Cloned app files from GitHub."
+        else
+            echo "WARNING: Could not fetch app files. Place index.html, app.js, styles.css,"
+            echo "  config.example.js, and taxonomy/ into $APP_DIR manually."
+        fi
+        rm -rf "$TMPCLONE"
+    else
+        echo "WARNING: App files not found and git not available."
+        echo "  Manually copy index.html, app.js, styles.css, taxonomy/ to $APP_DIR"
+    fi
+fi
 
 # --- 4. Generate config.js ---
 if [ -n "$ANON_KEY" ]; then
